@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<zend-config xmlns:zf="http://framework.zend.com/xml/zend-config-xml/1.0/">
+    <participation>
+        <installed>0</installed>
+        <demoEnabled>1</demoEnabled>
+        <objectFolderPath>/participation</objectFolderPath>
+        <emailDocumentPath>/participation-confirmation</emailDocumentPath>
+        <managerClass>\Participation\Manager</managerClass>
+        <confirmationSuccessUrl>/plugin/Participation/confirmation/success</confirmationSuccessUrl>
+        <confirmationFailureUrl>/plugin/Participation/confirmation/failure</confirmationFailureUrl>
+        <recaptcha>
+            <sitekey>NO-SITEKEY-IN-PARTICIPATION-CONFIG</sitekey>
+            <secret>NO-SECRET-IN-PARTICIPATION-CONFIG</secret>
+        </recaptcha>
+    </participation>
+</zend-config>
