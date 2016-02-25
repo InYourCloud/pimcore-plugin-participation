@@ -30,6 +30,13 @@ class Confirmation implements ConfirmationInterface
     }
 
     /**
+     * @return mixed
+     */
+    public function getSubject(){
+        return false;
+    }
+
+    /**
      * @param string $code
      * @return string
      * @throws \Exception
@@ -80,6 +87,11 @@ class Confirmation implements ConfirmationInterface
 
         $mail = new \Pimcore\Mail();
         $mail->addTo($email);
+
+        if($this->getSubject()) {
+            $mail->setSubject($this->getSubject());
+        }
+
         $mail->setDocument(
             $emailDocumentPath
         );
