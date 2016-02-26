@@ -409,4 +409,13 @@ class Plugin extends PluginLib\AbstractPlugin implements PluginLib\PluginInterfa
         $manager = new $managerClass;
         return $manager;
     }
+
+    /**
+     * @return ManagerInterface
+     */
+    public static function makeCustomManager($class)
+    {
+        $manager = new $class;
+        return $manager;
+    }
 }
