@@ -22,4 +22,8 @@ interface ConfirmationInterface
      */
     public function sendEmail($participation);
 
+    /**
+     * @param string $code
+     */
+    public function confirmParticipationByCode($code);
 }
