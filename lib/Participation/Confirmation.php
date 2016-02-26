@@ -6,10 +6,10 @@ use Pimcore\Model\Element\Note;
 use Pimcore\Model\Object\Participation;
 use Pimcore\View\Helper\Url as UrlHelper;
 use Pimcore\Document;
+use Pimcore\Mail;
 use Pimcore\Model\Document as DocumentModel;
 use Pimcore\Model\Document\Email as EmailDocument;
-
-Use RandomLib\Factory as RandomLibFactory;
+use RandomLib\Factory as RandomLibFactory;
 
 class Confirmation implements ConfirmationInterface
 {
@@ -17,6 +17,9 @@ class Confirmation implements ConfirmationInterface
     private $confirmationCodeLength = 20;
     private $confirmationCodeCharacters = 'abcdefghijkmnprstuvwxyz23456789';
 
+    /**
+     * @return string
+     */
     public function createCode()
     {
         $factory = new RandomLibFactory;
@@ -26,6 +29,7 @@ class Confirmation implements ConfirmationInterface
             $this->confirmationCodeLength,
             $this->confirmationCodeCharacters
         );
+
         return $randomString;
     }
 
@@ -43,26 +47,25 @@ class Confirmation implements ConfirmationInterface
      */
     public function createConfirmationLink($code)
     {
-
-        $protocolName = $_SERVER['REQUEST_SCHEME'];
-        $serverName = $_SERVER['SERVER_NAME'];
-
         $urlHelper = new UrlHelper;
         $confirmationLink = $urlHelper->url(
             array("code" => $code),
             Plugin::STATICROUTE_CONFIRMATIONCHECK_NAME
         );
-        return $protocolName . '://' . $serverName . $confirmationLink;
+
+        return $_SERVER['REQUEST_SCHEME'] . '://' . $_SERVER['SERVER_NAME'] . $confirmationLink;
     }
 
     /**
-     * @param AbstractObject $participation
+     * @param object $participation
+     * @return void
      * @throws \Exception
      */
     public function sendEmail($participation)
     {
         $email = $participation->getEmail();
         $emailDomain = trim(strtolower(preg_replace('/^[^@]+@/', '', $email)));
+
         $participation->setEmailDomain($emailDomain);
         $participation->save();
 
@@ -85,7 +88,7 @@ class Confirmation implements ConfirmationInterface
             );
         }
 
-        $mail = new \Pimcore\Mail();
+        $mail = new Mail();
         $mail->addTo($email);
 
         if($this->getSubject()) {
@@ -95,6 +98,7 @@ class Confirmation implements ConfirmationInterface
         $mail->setDocument(
             $emailDocumentPath
         );
+
         $mail->setParams($parameters);
         $mail->send();
 
@@ -115,8 +119,8 @@ class Confirmation implements ConfirmationInterface
     public function confirmParticipationByCode($code)
     {
         $participation = Participation::getByConfirmationCode($code, 1);
-        if (is_object($participation)) {
 
+        if (is_object($participation)) {
             $participation->SetIpConfirmed($_SERVER['REMOTE_ADDR']);
             $participation->setConfirmed(true);
             $participation->save();

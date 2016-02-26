@@ -2,6 +2,8 @@
 
 namespace Participation;
 
+use Pimcore\Model\Object\AbstractObject;
+
 interface ManagerInterface
 {
 
@@ -17,8 +19,7 @@ interface ManagerInterface
 
     /**
      * @return AbstractObject
-     * @throws Exception
+     * @throws \Exception
      */
     public function makeParticipation();
-
 }

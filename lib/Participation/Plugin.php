@@ -8,9 +8,7 @@ use Pimcore\Model\Object\AbstractObject;
 use Pimcore\Model\Object\Folder;
 use Pimcore\Model\Staticroute;
 use Pimcore\Model\Document\DocType;
-
 use Pimcore\Model\Document\DocType\Listing as DocTypeListing;
-
 use Pimcore\Model\Document\Page;
 use Pimcore\Model\Document\Email;
 
@@ -18,7 +16,6 @@ class Plugin extends PluginLib\AbstractPlugin implements PluginLib\PluginInterfa
 {
     const SAMPLE_CONFIG_XML = "/Participation/participation.xml";
     const CONFIG_XML = '/var/config/participation.xml';
-
     const CONFIG_OBJECTFOLDERPATH = "objectFolderPath";
     const CONFIG_OBJECTFOLDERPATH_DEFAULT = "/participation";
     const CONFIG_DEMOENABLED = 'demoEnabled';
@@ -29,7 +26,6 @@ class Plugin extends PluginLib\AbstractPlugin implements PluginLib\PluginInterfa
     const STATICROUTE_CONFIRMATIONCHECK_NAME = "participationConfirmationCheck";
 
     // email related constants
-
     const DOCTYPE_EMAIL_PARTICIPATION_CONFIRMATION_NAME =
         'Participation Confirmation';
 
@@ -76,17 +72,11 @@ class Plugin extends PluginLib\AbstractPlugin implements PluginLib\PluginInterfa
         try {
 
             self::createClasses();
-
             self::createObjects();
-
             self::createDocuments();
-
             self::createDocumentTypes();
-
             self::createEmailDocuments();
-
             self::createStaticRoutes();
-
             self::createConfigFile();
 
         } catch (\Exception $exception) {
@@ -280,7 +270,7 @@ class Plugin extends PluginLib\AbstractPlugin implements PluginLib\PluginInterfa
     {
         try {
             $docType = self::getDocumentTypeByName(
-                DOCTYPE_EMAIL_PARTICIPATION_CONFIRMATION_NAME
+                self::DOCTYPE_EMAIL_PARTICIPATION_CONFIRMATION_NAME
             );
             $docType->type = 'email';
             $docType->action = 'confirmation';

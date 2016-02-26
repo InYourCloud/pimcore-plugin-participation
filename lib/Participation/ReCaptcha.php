@@ -1,18 +1,11 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: xris
- * Date: 07.12.15
- * Time: 17:14
- */
 
 namespace Participation;
 
-
 class ReCaptcha implements CaptchaInterface
 {
-    private $siteKey;
 
+    private $siteKey;
     private $secret;
 
     /**
@@ -40,7 +33,6 @@ class ReCaptcha implements CaptchaInterface
     {
         $this->siteKey = $siteKey;
     }
-
 
     public function getWidgetMarkup()
     {

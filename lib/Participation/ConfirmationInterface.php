@@ -17,7 +17,7 @@ interface ConfirmationInterface
     public function createConfirmationLink($code);
 
     /**
-     * @param AbstractObject $participation
+     * @param object $participation
      * @throws \Exception
      */
     public function sendEmail($participation);

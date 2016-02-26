@@ -5,6 +5,8 @@ namespace Participation;
 use Pimcore\API\Plugin\Exception;
 use Pimcore\Model\Object\AbstractObject;
 use Pimcore\Model\Object\Folder;
+use Pimcore\Model\Object\Participation;
+use Pimcore\File;
 
 class Manager implements ManagerInterface
 {
@@ -28,29 +30,28 @@ class Manager implements ManagerInterface
 
     /**
      * @return AbstractObject|\Pimcore\Model\Object\Participation
-     * @throws Exception
+     * @throws \Exception
      */
     public function makeParticipation()
     {
         $objectFolderPath = Plugin::getConfig()->get(Plugin::CONFIG_OBJECTFOLDERPATH);
         $objectFolder = AbstractObject::getByPath($objectFolderPath);
+
         if (!$objectFolder instanceof Folder) {
-            throw new Exception(
+            throw new \Exception(
                 "Error: objectFolderPath [$objectFolderPath] "
                 . "is not a valid object folder."
             );
         }
 
         // create basic object stuff
-
         $key = $this->createParticipationKey();
 
-        $participation = new \Pimcore\Model\Object\Participation();
+        $participation = new Participation();
         $participation->setKey($key);
         $participation->setParent($objectFolder);
         $participation->setPublished(true);
         $participation->setCreationDate(time());
-
         $participation->SetIpCreated($_SERVER['REMOTE_ADDR']);
 
         $confirmation = $this->makeConfirmation();
@@ -63,13 +64,12 @@ class Manager implements ManagerInterface
     }
 
     /**
-     * returns a unique key for the pimcore object
+     * @return string
      */
     private function createParticipationKey()
     {
-        return \Pimcore_File::getValidFilename(
+        return File::getValidFilename(
             "p-" . time() . '-' . rand(10000, 99999)
         );
     }
-
 }
