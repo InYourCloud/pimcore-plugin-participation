@@ -404,7 +404,7 @@ class Plugin extends PluginLib\AbstractPlugin implements PluginLib\PluginInterfa
      * @param $class
      * @return ManagerInterface
      */
-    public static function makeManager($class)
+    public static function makeManager($class=null)
     {
         $managerClass = $class ? $class : self::$config->get(self::CONFIG_MANAGERCLASS);
 
