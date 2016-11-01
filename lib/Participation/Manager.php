@@ -52,7 +52,7 @@ class Manager implements ManagerInterface
         $participation->setParent($objectFolder);
         $participation->setPublished(true);
         $participation->setCreationDate(time());
-        $participation->SetIpCreated($_SERVER['REMOTE_ADDR']);
+        $participation->setIpCreated($_SERVER['REMOTE_ADDR']);
 
         $confirmation = $this->makeConfirmation();
 
